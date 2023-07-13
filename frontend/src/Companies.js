@@ -9,7 +9,7 @@ import JoblyApi from "./api";
 
 export default function Companies() {
   const [isLoading, setIsLoading] = useState(true);
-  const [companies, setCompanies] = useState({});
+  const [companies, setCompanies] = useState([]);
   // const [searchResults, setSearchResults] = useState(false);
   const [formData, setFormData] = useState({ search: "" });
 
