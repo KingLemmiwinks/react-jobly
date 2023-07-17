@@ -67,7 +67,7 @@ export default function Jobs() {
               title={job.title}
             />
           ))}
-          {jobs !== [] && <p>No Jobs Found</p>}
+          {jobs === [] && <p>No Jobs Found</p>}
         </Col>
       </Row>
     </Container>
