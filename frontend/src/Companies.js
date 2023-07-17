@@ -35,7 +35,7 @@ export default function Companies() {
   }
 
   useEffect(() => {
-    if(formData == undefined || formData == null) {
+    if(formData === undefined || formData == null) {
       setIsLoading(true);
     } 
     else {
@@ -73,5 +73,3 @@ export default function Companies() {
     </Container>
   );
 }
-
-

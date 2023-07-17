@@ -5,8 +5,7 @@ const BASE_URL = process.env.BASE_URL || "http://localhost:3001";
 
 export default class JoblyApi {
   static async request(endpoint, params = {}, verb = "get") {
-    let _token =
-      localStorage.getItem(TOKEN_STORAGE_ID);
+    let _token = localStorage.getItem(TOKEN_STORAGE_ID);
 
     console.debug("API Call:", endpoint, params, verb);
 
@@ -39,5 +38,10 @@ export default class JoblyApi {
   static async getCompanies(search) {
     let res = await this.request("companies", { search });
     return res.companies;
+  }
+
+  static async getJobs(search) {
+    let res = await this.request("jobs", { search });
+    return res.jobs;
   }
 }
