@@ -5,6 +5,7 @@ import Routes from "./Routes";
 export const TOKEN_STORAGE_ID = "jobly-token";
 
 export default function App() {
+  
   return (
     <>
       <AppNav />

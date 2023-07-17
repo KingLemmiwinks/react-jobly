@@ -4,7 +4,7 @@ import Image from "react-bootstrap/Image";
 import "./CompanyCard.css";
 
 export default function CompanyCard(props) {
-  const { name, description } = props;
+  const { name, description, logo_url } = props;
   return (
     <Card className="mb-3">
       <Card.Body>

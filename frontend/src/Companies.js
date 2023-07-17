@@ -10,33 +10,42 @@ import JoblyApi from "./api";
 export default function Companies() {
   const [isLoading, setIsLoading] = useState(true);
   const [companies, setCompanies] = useState([]);
-  // const [searchResults, setSearchResults] = useState(false);
-  const [formData, setFormData] = useState({ search: "" });
-
-  useEffect(() => {
-    async function getCompanies() {
-      let companies = await JoblyApi.getCompanies();
-      setCompanies(companies);
-      setIsLoading(false);
-    }
-    getCompanies();
-  }, []);
-  console.log(companies);
+  const [formData, setFormData] = useState({ search: '' });
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setFormData((fdata) => ({
       ...fdata,
-      [name]: value
+      [name]: value,
     }));
-  }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const searchResults = await JoblyApi.getCompanies(formData.search);
     setCompanies(searchResults);
-    setFormData({ search: "" });
+    setFormData({ search: '' });
   };
+
+  const getCompanies = () => {
+      JoblyApi.getCompanies().then((companies) => {
+        setCompanies(companies);
+        setIsLoading(false);
+      });
+  }
+
+  useEffect(() => {
+    if(formData == undefined || formData == null) {
+      setIsLoading(true);
+    } 
+    else {
+      setIsLoading(false);
+    }
+  }, [formData]);
+
+  useEffect(() => {
+    getCompanies();
+  }, []);
 
   if (isLoading) {
     return <p>Loading &hellip;</p>;
@@ -53,13 +62,16 @@ export default function Companies() {
           {companies.map((company) => (
             <CompanyCard
               description={company.description}
+              handle={company.handle}
               key={uuidv4()}
               name={company.name}
-              logo_Url={company.logo_url}
             />
           ))}
+          {companies === [] && <p>No Companies Found</p>}
         </Col>
       </Row>
     </Container>
   );
 }
+
+
