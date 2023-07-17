@@ -7,8 +7,6 @@ export default class JoblyApi {
   static async request(endpoint, params = {}, verb = "get") {
     let _token = localStorage.getItem(TOKEN_STORAGE_ID);
 
-    console.debug("API Call:", endpoint, params, verb);
-
     let q;
 
     if (verb === "get") {

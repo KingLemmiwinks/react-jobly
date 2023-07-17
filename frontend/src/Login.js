@@ -12,23 +12,23 @@ import JoblyApi from './api';
 
 export default function Login({ setToken }) {
   const history = useHistory();
-  const [activeView, setActiveView] = useState("login");
+  const [activeView, setActiveView] = useState('login');
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    errors: [],
-  });
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    errors: []
+  })
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setFormData((fdata) => ({
       ...fdata,
-      [name]: value,
+      [name]: value
     }));
-  };
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -39,15 +39,15 @@ export default function Login({ setToken }) {
       data = {
         username: formData.username,
         password: formData.password,
-        first_name: formData.first_name || undefined,
-        last_name: formData.last_name || undefined,
-        email: formData.email || undefined,
+        first_name: formData.firstName || undefined,
+        last_name: formData.lastName || undefined,
+        email: formData.email || undefined
       };
       endpoint = "register";
     } else {
       data = {
         username: formData.username,
-        password: formData.password,
+        password: formData.password
       };
       endpoint = "login";
     }
@@ -57,12 +57,12 @@ export default function Login({ setToken }) {
     try {
       token = await JoblyApi[endpoint](data);
     } catch (errors) {
-      return setFormData((data) => ({ ...data, errors }));
+      return setFormData(data => ({ ...data, errors }));
     }
 
     setToken(token);
     history.push("/jobs");
-  };
+  }
 
   return (
     <Container className="mt-5">
@@ -126,7 +126,7 @@ export default function Login({ setToken }) {
                       <Form.Control
                         className="mb-2"
                         onChange={changeHandler}
-                        type="text"
+                        type="email"
                         name="email"
                         value={formData.email}
                       />
@@ -134,7 +134,7 @@ export default function Login({ setToken }) {
                   )}
                 </Form.Group>
                 {formData.errors.length > 0 && (
-                  <Alert type="danger" messages={formData.errors} />
+                  <Alert variant="danger">{formData.errors}</Alert>
                 )}
                 <Button
                   className="d-block ml-auto"

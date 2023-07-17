@@ -19,7 +19,7 @@ export default function SearchForm({ changeHandler, submitHandler, formData }) {
           placeholder="Enter search term..."
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="info" type="submit">
         Submit
       </Button>
     </Form>
