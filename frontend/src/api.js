@@ -4,19 +4,26 @@ import { TOKEN_STORAGE_ID } from "./App.js";
 const BASE_URL = process.env.BASE_URL || "http://localhost:3001";
 
 export default class JoblyApi {
-  static async request(endpoint, params = {}, verb = "get") {
-    let _token = localStorage.getItem(TOKEN_STORAGE_ID);
+  static async request(endpoint, params = {}, verb = "get", allowAnonymous = false) {
+    let _token =localStorage.getItem(TOKEN_STORAGE_ID)
+
+    console.debug("API Call:", endpoint, params, verb);
 
     let q;
+    let config;
+
+    if (allowAnonymous != true){
+      axios.defaults.headers.common = {'Authorization': `Bearer ${_token}`};        
+    }
 
     if (verb === "get") {
       q = axios.get(`${BASE_URL}/${endpoint}`, {
-        params: { _token, ...params },
+        params: { ...params },
       });
-    } else if (verb === "post") {
-      q = axios.post(`${BASE_URL}/${endpoint}`, { _token, ...params });
+    } else if (verb === "post") {        
+        q = axios.post(`${BASE_URL}/${endpoint}`, { ...params });
     } else if (verb === "patch") {
-      q = axios.patch(`${BASE_URL}/${endpoint}`, { _token, ...params });
+      q = axios.patch(`${BASE_URL}/${endpoint}`, { ...params });
     }
 
     try {
@@ -49,7 +56,7 @@ export default class JoblyApi {
   }
 
   static async login(data) {
-    let res = await this.request(`login`, data, "post");
+    let res = await this.request(`auth/token`, data, "post", true);
     return res.token;
   }
 

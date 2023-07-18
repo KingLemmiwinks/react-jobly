@@ -39,8 +39,8 @@ export default function Login({ setToken }) {
       data = {
         username: formData.username,
         password: formData.password,
-        first_name: formData.firstName || undefined,
-        last_name: formData.lastName || undefined,
+        first_name: formData.first_name || undefined,
+        last_name: formData.last_name || undefined,
         email: formData.email || undefined,
       };
       endpoint = "register";
@@ -61,7 +61,7 @@ export default function Login({ setToken }) {
     }
 
     setToken(token);
-    history.push("/jobs");
+    history.push("/companies");
   };
 
   return (
@@ -126,7 +126,7 @@ export default function Login({ setToken }) {
                       <Form.Control
                         className="mb-2"
                         onChange={changeHandler}
-                        type="email"
+                        type="text"
                         name="email"
                         value={formData.email}
                       />
@@ -134,7 +134,7 @@ export default function Login({ setToken }) {
                   )}
                 </Form.Group>
                 {formData.errors.length > 0 && (
-                  <Alert variant="danger">{formData.errors}</Alert>
+                  <Alert type="danger" messages={formData.errors} />
                 )}
                 <Button
                   className="d-block ml-auto"
