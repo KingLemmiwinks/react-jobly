@@ -45,4 +45,4 @@ export default function App() {
       <Routes setToken={setToken} />
     </UserContext.Provider>
   );
-}
+};
