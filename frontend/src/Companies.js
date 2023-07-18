@@ -10,7 +10,16 @@ import JoblyApi from "./api";
 export default function Companies() {
   const [isLoading, setIsLoading] = useState(true);
   const [companies, setCompanies] = useState([]);
-  const [formData, setFormData] = useState({ search: '' });
+  const [formData, setFormData] = useState({ search: "" });
+
+  useEffect(() => {
+    async function getCompanies() {
+      let companies = await JoblyApi.getCompanies();
+      setCompanies(companies);
+      setIsLoading(false);
+    }
+    getCompanies();
+  }, []);
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -24,28 +33,8 @@ export default function Companies() {
     e.preventDefault();
     const searchResults = await JoblyApi.getCompanies(formData.search);
     setCompanies(searchResults);
-    setFormData({ search: '' });
+    setFormData({ search: "" });
   };
-
-  const getCompanies = () => {
-      JoblyApi.getCompanies().then((companies) => {
-        setCompanies(companies);
-        setIsLoading(false);
-      });
-  }
-
-  useEffect(() => {
-    if(formData === undefined || formData == null) {
-      setIsLoading(true);
-    } 
-    else {
-      setIsLoading(false);
-    }
-  }, [formData]);
-
-  useEffect(() => {
-    getCompanies();
-  }, []);
 
   if (isLoading) {
     return <p>Loading &hellip;</p>;

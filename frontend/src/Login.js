@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
-import JoblyApi from './api';
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+import JoblyApi from "./api";
 
 export default function Login({ setToken }) {
   const history = useHistory();
-  const [activeView, setActiveView] = useState('login');
+  const [activeView, setActiveView] = useState("login");
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    errors: []
-  })
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    errors: [],
+  });
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setFormData((fdata) => ({
       ...fdata,
-      [name]: value
+      [name]: value,
     }));
-  }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -41,13 +41,13 @@ export default function Login({ setToken }) {
         password: formData.password,
         first_name: formData.firstName || undefined,
         last_name: formData.lastName || undefined,
-        email: formData.email || undefined
+        email: formData.email || undefined,
       };
       endpoint = "register";
     } else {
       data = {
         username: formData.username,
-        password: formData.password
+        password: formData.password,
       };
       endpoint = "login";
     }
@@ -57,12 +57,12 @@ export default function Login({ setToken }) {
     try {
       token = await JoblyApi[endpoint](data);
     } catch (errors) {
-      return setFormData(data => ({ ...data, errors }));
+      return setFormData((data) => ({ ...data, errors }));
     }
 
     setToken(token);
     history.push("/jobs");
-  }
+  };
 
   return (
     <Container className="mt-5">
