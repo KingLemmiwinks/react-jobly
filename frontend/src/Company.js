@@ -15,6 +15,26 @@ export default function Company() {
   const { handle } = useParams();
 
   
+
+  const applyHandler = (id) => {
+    JoblyApi.applyToJob(currentUser.username, id).then(() => {
+      JoblyApi.getCurrentUser(currentUser.username).then((updatedUser) => {
+        setCurrentUser(updatedUser);
+      });
+    });
+  };
+
+  const checkAppliedFor = (id) => {
+    if (currentUser.applications !== undefined && currentUser.applications !== null) {
+      if (currentUser.applications.indexOf(id) >= 0) {
+        return true;
+      }
+      return false;
+    } else {
+      return false;
+    }
+  };
+
   useEffect(() => {
     async function getCompany() {
       console.log(handle);
@@ -26,23 +46,6 @@ export default function Company() {
     }
     getCompany();
   }, [handle]);
-
-  const applyHandler = async (id) => {
-    await JoblyApi.applyToJob(id);
-    setCurrentUser({
-      ...currentUser,
-      jobs: [...currentUser.jobs, { id }],
-    });
-  };
-
-  const checkAppliedFor = (id) => {
-    for (let [k, v] of Object.entries(currentUser.jobs)) {
-      if (v.id === id) {
-        return true;
-      }
-    }
-    return false;
-  };
 
   if (isLoading) {
     return <p>Loading &hellip;</p>;

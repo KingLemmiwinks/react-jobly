@@ -30,21 +30,26 @@ export default function Jobs() {
     setFormData({ search: "" });
   };
 
-  const applyHandler = async (id) => {
-    await JoblyApi.applyToJob(id);
-    setCurrentUser({
-      ...currentUser,
-      jobs: [...currentUser.jobs, { id }],
+  const applyHandler = (id) => {
+    JoblyApi.applyToJob(currentUser.username, id).then(() => {
+      JoblyApi.getCurrentUser(currentUser.username).then((updatedUser) => {
+          setCurrentUser(updatedUser);
+      })
     });
   };
 
   const checkAppliedFor = (id) => {
-    for (let [k, v] of Object.entries(currentUser.jobs)) {
-      if (v.id === id) {
+    if (
+      currentUser.applications !== undefined &&
+      currentUser.applications !== null
+    ) {
+      if (currentUser.applications.indexOf(id) >= 0) {
         return true;
       }
+      return false;
+    } else {
+      return false;
     }
-    return false;
   };
 
   const getJobs = () => {
@@ -78,6 +83,8 @@ export default function Jobs() {
             submitHandler={submitHandler}
             formData={formData}
           />
+
+
           {jobs.map((job) => (
             <JobCard
             appliedFor={checkAppliedFor(job.id)}

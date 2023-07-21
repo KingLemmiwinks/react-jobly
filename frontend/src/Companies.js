@@ -12,14 +12,7 @@ export default function Companies() {
   const [companies, setCompanies] = useState([]);
   const [formData, setFormData] = useState({ search: "" });
 
-  useEffect(() => {
-    async function getCompanies() {
-      let companies = await JoblyApi.getCompanies();
-      setCompanies(companies);
-      setIsLoading(false);
-    }
-    getCompanies();
-  }, []);
+
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -35,6 +28,15 @@ export default function Companies() {
     setCompanies(searchResults);
     setFormData({ search: "" });
   };
+
+  useEffect(() => {
+    async function getCompanies() {
+      let companies = await JoblyApi.getCompanies();
+      setCompanies(companies);
+      setIsLoading(false);
+    }
+    getCompanies();
+  }, []);
 
   if (isLoading) {
     return <p>Loading &hellip;</p>;

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./CompanyCard.css";
 
 export default function CompanyCard(props) {
-  const { handle, name, description, logo_url } = props;
+  const { handle, name, description } = props;
   return (
     <Link to={`/companies/${handle}`}>
       <Card className="mb-3">

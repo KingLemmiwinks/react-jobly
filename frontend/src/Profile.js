@@ -15,10 +15,9 @@ export default function Profile() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
 
   const [userForm, setUserForm] = useState({
-    first_name: currentUser.first_name || "",
-    last_name: currentUser.last_name || "",
+    first_name: currentUser.firstName || "",
+    last_name: currentUser.lastName || "",
     email: currentUser.email || "",
-    photo_url: currentUser.photo_url || "",
     username: currentUser.username,
     password: "",
     errors: [],
@@ -26,29 +25,16 @@ export default function Profile() {
   });
 
   const messageShownRef = useRef(false);
-  useEffect(
-    function () {
-      if (userForm.saveConfirmed && !messageShownRef.current) {
-        messageShownRef.current = true;
-        setTimeout(function () {
-          setUserForm((f) => ({ ...f, saveConfirmed: false }));
-          messageShownRef.current = false;
-        }, MESSAGE_SHOW_PERIOD_IN_MSEC);
-      }
-    },
-    [userForm]
-  );
+
 
   async function submitHandler(e) {
     e.preventDefault();
 
     try {
       let profileData = {
-        first_name: userForm.first_name || undefined,
-        last_name: userForm.last_name || undefined,
-        email: userForm.email || undefined,
-        photo_url: userForm.photo_url || undefined,
-        password: userForm.password,
+        firstName: userForm.first_name || undefined,
+        lastName: userForm.last_name || undefined,
+
       };
 
       let username = userForm.username;
@@ -74,6 +60,19 @@ export default function Profile() {
       errors: [],
     }));
   }
+  
+  useEffect(
+    function () {
+      if (userForm.saveConfirmed && !messageShownRef.current) {
+        messageShownRef.current = true;
+        setTimeout(function () {
+          setUserForm((f) => ({ ...f, saveConfirmed: false }));
+          messageShownRef.current = false;
+        }, MESSAGE_SHOW_PERIOD_IN_MSEC);
+      }
+    },
+    [userForm]
+  );
 
   return (
     <Container className="mt-5">
@@ -111,33 +110,7 @@ export default function Profile() {
                   <Form.Label className="mb-0">
                     <h5>Email</h5>
                   </Form.Label>
-                  <Form.Control
-                    className="mb-3"
-                    onChange={changeHandler}
-                    type="email"
-                    name="email"
-                    value={userForm.email}
-                  />
-                  <Form.Label className="mb-0">
-                    <h5>Photo URL</h5>
-                  </Form.Label>
-                  <Form.Control
-                    className="mb-3"
-                    onChange={changeHandler}
-                    type="text"
-                    name="photo_url"
-                    value={userForm.photo_url}
-                  />
-                  <Form.Label className="mb-0">
-                    <h5>Re-enter Password</h5>
-                  </Form.Label>
-                  <Form.Control
-                    className="mb-3"
-                    onChange={changeHandler}
-                    type="password"
-                    name="password"
-                    value={userForm.password}
-                  />
+                  <p>{currentUser.email}</p>
                 </Form.Group>
                 {userForm.errors.length > 0 && (
                   <Alert variant="danger">{userForm.errors}</Alert>

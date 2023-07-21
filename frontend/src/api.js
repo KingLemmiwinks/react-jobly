@@ -10,9 +10,8 @@ export default class JoblyApi {
     console.debug("API Call:", endpoint, params, verb);
 
     let q;
-    let config;
 
-    if (allowAnonymous != true){
+    if (allowAnonymous !== true){
       axios.defaults.headers.common = {'Authorization': `Bearer ${_token}`};        
     }
 
@@ -40,18 +39,18 @@ export default class JoblyApi {
     return res.company;
   }
 
-  static async getCompanies(search) {
-    let res = await this.request("companies", { search });
+  static async getCompanies(name) {
+    let res = await this.request("companies", { name });
     return res.companies;
   }
 
-  static async getJobs(search) {
-    let res = await this.request("jobs", { search });
+  static async getJobs(title) {
+    let res = await this.request("jobs", { title });
     return res.jobs;
   }
 
-  static async applyToJob(id) {
-    let res = await this.request(`jobs/${id}/apply`, {}, "post");
+  static async applyToJob(username, id) {
+    let res = await this.request(`users/${username}/jobs/${id}`, {}, "post");
     return res.message;
   }
 
