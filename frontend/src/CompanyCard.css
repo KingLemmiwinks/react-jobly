@@ -1,0 +1,13 @@
+img {
+  height: 40px;
+  width: 30px;
+  float: right;
+}
+
+a {
+  color: black;
+}
+
+a:hover {
+  color: #0275d8;
+}
